@@ -14,14 +14,14 @@ public interface ProductoRepository extends JpaRepository<Productos, Long>{
     //creacion de metodos para la utilizacion del SQL e interpretacion
     List<Productos> findByNombre_prodIgnoreCase(String nombre);
 
-    List<Productos> findByPrecioLessThanEqual(BigDecimal precio);
+    List<Productos> findByPrecio_unitarioLessThanEqual(BigDecimal precio);
 
 
     //consultas personalizadas
-    @Query("SELECT p FROM productos p WHERE p.SKU = :sku")
+    @Query("SELECT p FROM Productos p WHERE p.SKU = :sku")
     List<Productos> encontrarProductosPorSku(@Param("sku") String sku);
 
-    @Query("SELECT P FROM prodcutos p WHERE p.nombre_prod LIKE %:nombre_prod%")
+    @Query("SELECT p FROM Productos p WHERE p.nombre_prod LIKE %:nombre_prod%")
     List<Productos> encontrarProductosPorNombre(@Param("nombre_prod") String nombre_prod);
 
 
