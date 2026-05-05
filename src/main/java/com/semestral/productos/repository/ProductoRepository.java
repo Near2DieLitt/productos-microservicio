@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+
 import com.semestral.productos.model.Productos;
 
 public interface ProductoRepository extends JpaRepository<Productos, Long>{
@@ -23,6 +24,7 @@ public interface ProductoRepository extends JpaRepository<Productos, Long>{
 
     @Query("SELECT p FROM Productos p WHERE p.nombre_prod LIKE %:nombre_prod%")
     List<Productos> encontrarProductosPorNombre(@Param("nombre_prod") String nombre_prod);
+
 
 
     

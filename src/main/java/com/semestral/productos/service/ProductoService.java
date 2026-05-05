@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.semestral.productos.dto.ProductoRequestDTO;
 import com.semestral.productos.dto.ProductoResponseDTO;
 import com.semestral.productos.model.Productos;
 import com.semestral.productos.repository.ProductoRepository;
@@ -16,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class ProductoService {
 
+    
     private final ProductoRepository productoRepository;
 
     // Convertimos la lista de entidades a lista de DTOs
@@ -32,8 +34,9 @@ public class ProductoService {
     }
 
     // Recibe entidad (validada en Controller) y devuelve DTO
-    public ProductoResponseDTO createProducto(Productos producto) {
-        Productos guardado = productoRepository.save(producto);
+    public ProductoResponseDTO saveProducto(ProductoRequestDTO prod) {
+        Productos guardado = new Productos(null, prod.getSKU(), prod.getNombre_prod(), prod.getDesc_prod(),
+         prod.getPrecio_unitario(), prod.getFoto(), prod.getStock(), prod.getId_cat());
         return convertToDTO(guardado);
     }
 
@@ -46,7 +49,7 @@ public class ProductoService {
         return convertToDTO(actualizado);
     }
 
-    // --- Método Helper para mapear ---
+    // Método Helper para mapear
     private ProductoResponseDTO convertToDTO(Productos p) {
         return new ProductoResponseDTO(
             p.getId_producto(),
@@ -60,7 +63,6 @@ public class ProductoService {
         );
     }
 
-    // Los métodos de búsqueda también deberían retornar DTOs
     public List<ProductoResponseDTO> findBySku(String sku) {
         return productoRepository.encontrarProductosPorSku(sku).stream()
                 .map(this::convertToDTO)
