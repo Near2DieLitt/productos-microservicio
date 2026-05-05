@@ -28,8 +28,8 @@ public class ProductoController {
     //Creacion de endpoints
     //get (por id)
     @GetMapping("/{id}")
-    public ResponseEntity<ProductoResponseDTO> obtenerPorId(@PathVariable Long id_producto){
-        return ResponseEntity.ok(prodService.getProductoById(id_producto));
+    public ResponseEntity<ProductoResponseDTO> obtenerPorId(@PathVariable Long idProducto){
+        return ResponseEntity.ok(prodService.getProductoById(idProducto));
     }
 
     //get (todos los productos)

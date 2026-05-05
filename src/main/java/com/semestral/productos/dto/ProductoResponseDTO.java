@@ -13,12 +13,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ProductoResponseDTO {
 
-    private Long id_producto;
-    private String SKU;
-    private String nombre_prod;
-    private String desc_prod;
-    private BigDecimal precio_unitario;
+    private Long idProducto;
+    private String sku;
+    private String nombreProd;
+    private String descProd;
+    private BigDecimal precioUnitario;
     private String foto;
     private Long stock;
-    private Categoria id_cat;
+    private Categoria idCat;
 }

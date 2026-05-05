@@ -35,8 +35,8 @@ public class ProductoService {
 
     // Recibe entidad (validada en Controller) y devuelve DTO
     public ProductoResponseDTO saveProducto(ProductoRequestDTO prod) {
-        Productos guardado = new Productos(null, prod.getSKU(), prod.getNombre_prod(), prod.getDesc_prod(),
-         prod.getPrecio_unitario(), prod.getFoto(), prod.getStock(), prod.getId_cat());
+        Productos guardado = new Productos(null, prod.getSku(), prod.getNombreProd(), prod.getDescProd(),
+         prod.getPrecioUnitario(), prod.getFoto(), prod.getStock(), prod.getIdCat());
         return convertToDTO(guardado);
     }
 
@@ -44,7 +44,7 @@ public class ProductoService {
         Productos existente = productoRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Producto no encontrado"));
         
-        producto.setId_producto(existente.getId_producto());
+        producto.setIdProducto(existente.getIdProducto());
         Productos actualizado = productoRepository.save(producto);
         return convertToDTO(actualizado);
     }
@@ -52,14 +52,14 @@ public class ProductoService {
     // Método Helper para mapear
     private ProductoResponseDTO convertToDTO(Productos p) {
         return new ProductoResponseDTO(
-            p.getId_producto(),
-            p.getSKU(),
-            p.getNombre_prod(),
-            p.getDesc_prod(),
-            p.getPrecio_unitario(),
+            p.getIdProducto(),
+            p.getSku(),
+            p.getNombreProd(),
+            p.getDescProd(),
+            p.getPrecioUnitario(),
             p.getFoto(),
             p.getStock(),
-            p.getId_cat()
+            p.getIdCat()
         );
     }
 

@@ -10,22 +10,20 @@ import org.springframework.data.repository.query.Param;
 
 import com.semestral.productos.model.Productos;
 
-public interface ProductoRepository extends JpaRepository<Productos, Long>{
+public interface ProductoRepository extends JpaRepository<Productos, Long> {
 
-    //creacion de metodos para la utilizacion del SQL e interpretacion
-    List<Productos> findByNombre_prodIgnoreCase(String nombre);
+    // Sin guiones bajos
+    List<Productos> findByNombreProdIgnoreCase(String nombre);
 
-    List<Productos> findByPrecio_unitarioLessThanEqual(BigDecimal precio);
+    // Sin guiones bajos
+    List<Productos> findByPrecioUnitarioLessThanEqual(BigDecimal precio);
 
-
-    //consultas personalizadas
-    @Query("SELECT p FROM Productos p WHERE p.SKU = :sku")
+    // Consultas personalizadas (Estas están bien, pero asegúrate 
+    // de que p.SKU y p.nombre_prod coincidan con los nombres de 
+    // las variables en tu clase @Entity)
+    @Query("SELECT p FROM Productos p WHERE p.sku = :sku")
     List<Productos> encontrarProductosPorSku(@Param("sku") String sku);
 
-    @Query("SELECT p FROM Productos p WHERE p.nombre_prod LIKE %:nombre_prod%")
-    List<Productos> encontrarProductosPorNombre(@Param("nombre_prod") String nombre_prod);
-
-
-
-    
+    @Query("SELECT p FROM Productos p WHERE p.nombreProd LIKE %:nombreProd%")
+    List<Productos> encontrarProductosPorNombre(@Param("nombreProd") String nombreProd);
 }

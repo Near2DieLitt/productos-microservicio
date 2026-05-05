@@ -19,21 +19,19 @@ import lombok.NoArgsConstructor;
 public class ProductoRequestDTO {
 
     @NotBlank(message = "El SKU no puede estar vacio")
-    private String SKU;
+    private String sku;
     @NotBlank(message = "El nombre no puede estar vacio")
-    private String nombre_prod;
+    private String nombreProd;
     @NotBlank(message = "La descripcion no puede estar vacia")
-    private String desc_prod;
+    private String descProd;
     @NotNull(message = "El precio no puede estar vacio")
     @Positive(message = "El precio debe ser mayor a 0")
-    private BigDecimal precio_unitario;
+    private BigDecimal precioUnitario;
     @NotBlank(message = "La URL no puede estar vacia")
-    @URL(message = "Por favor, ingresa una dirección URL válida (ej: https://ejemplo.com)")
     private String foto;
     @NotNull(message = "El stock no puede estar vacio")
     @Positive(message = "El stock debe ser mayor a 0")
     private Long stock;
-    @NotNull(message = "La categoria no estar vacia")
-    private Categoria id_cat;
+    private Categoria idCat;
 
 }

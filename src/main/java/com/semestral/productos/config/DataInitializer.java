@@ -39,7 +39,7 @@ public class DataInitializer implements CommandLineRunner{
 
         ProdRepo.save(new Productos(
             null,
-            "LMiun122",
+            "LMiun12",
             "Pulsera de plata",
             "pulsera de plata 9/25 con insignia de oro de 14K (58,5% oro)",
             new BigDecimal(85990), 

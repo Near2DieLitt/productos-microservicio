@@ -27,24 +27,24 @@ public class Productos {
 
 @Id
 @GeneratedValue(strategy = GenerationType.IDENTITY)
-private Long id_producto;
+private Long idProducto;
 
 
 @Column(name = "sku", nullable = false, unique = true, length = 20)
-private String SKU;
+private String sku;
 
 
 @Column(nullable = false, length = 100)
-private String nombre_prod;
+private String nombreProd;
 
 
 @Column(name = "descripcion", length = 300)
-private String desc_prod;
+private String descProd;
 
 
 
-@Column(name = "precio_unit", nullable = false, precision = 10, scale = 2)
-private BigDecimal precio_unitario;
+@Column(name = "precio_unit")
+private BigDecimal precioUnitario;
     
 
 @Column(name = "foto", length = 500)
@@ -56,8 +56,8 @@ private Long stock;
 
 
 @ManyToOne
-@JoinColumn(name = "categoria_id", nullable = false)
-private Categoria id_cat;
+@JoinColumn(name = "categoria_id", nullable = true)
+private Categoria idCat;
 
 
 
