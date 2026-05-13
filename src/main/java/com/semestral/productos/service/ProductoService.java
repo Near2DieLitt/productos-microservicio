@@ -1,13 +1,16 @@
 package com.semestral.productos.service;
 
 import java.util.List;
-import java.util.NoSuchElementException;
+
+import java.util.Optional;
 import java.util.stream.Collectors;
+
 
 import org.springframework.stereotype.Service;
 
 import com.semestral.productos.dto.ProductoRequestDTO;
 import com.semestral.productos.dto.ProductoResponseDTO;
+import com.semestral.productos.model.Categoria;
 import com.semestral.productos.model.Productos;
 import com.semestral.productos.repository.ProductoRepository;
 
@@ -19,6 +22,7 @@ public class ProductoService {
 
     
     private final ProductoRepository productoRepository;
+    private final CategoriaService categoriaService;
 
     // Convertimos la lista de entidades a lista de DTOs
     public List<ProductoResponseDTO> getAllProductos() {
@@ -27,32 +31,38 @@ public class ProductoService {
                 .collect(Collectors.toList());
     }
 
-    public ProductoResponseDTO getProductoById(Long id) {
-        Productos producto = productoRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Producto no encontrado con id: " + id));
-        return convertToDTO(producto);
+    public Optional<ProductoResponseDTO> encontrarPorId(Long id){
+        return productoRepository.findById(id).map(this::convertToDTO);
     }
-
+    
     // Recibe entidad (validada en Controller) y devuelve DTO
-    public ProductoResponseDTO saveProducto(ProductoRequestDTO prod) {
-        Productos guardado = new Productos(null, prod.getSku(), prod.getNombreProd(), prod.getDescProd(),
-         prod.getPrecioUnitario(), prod.getFoto(), prod.getStock(), prod.getIdCat());
+    public ProductoResponseDTO saveProducto(ProductoRequestDTO productos) {
+        if (productos.getIdCat() == null) {
+            throw new RuntimeException("El id es obligatorio");
+        }
+        Categoria categoria = categoriaService.findById(productos.getIdCat())
+                .orElseThrow(() -> new RuntimeException("La categoría ID: " + productos.getIdCat() + " no existe"));
+
+        Productos prod = new Productos(
+            null,
+            productos.getSku(),
+            productos.getNombreProd(),
+            productos.getDescProd(),
+            productos.getPrecioUnitario(),
+            productos.getFoto(),
+            productos.getStock(),
+            categoria
+        );
+
+        Productos guardado = productoRepository.save(prod);
         return convertToDTO(guardado);
     }
 
-    public ProductoResponseDTO updateProducto(Long id, Productos producto) {
-        Productos existente = productoRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Producto no encontrado"));
-        
-        producto.setIdProducto(existente.getIdProducto());
-        Productos actualizado = productoRepository.save(producto);
-        return convertToDTO(actualizado);
-    }
 
     // Método Helper para mapear
     private ProductoResponseDTO convertToDTO(Productos p) {
         return new ProductoResponseDTO(
-            p.getIdProducto(),
+            p.getId(),
             p.getSku(),
             p.getNombreProd(),
             p.getDescProd(),
@@ -69,10 +79,7 @@ public class ProductoService {
                 .collect(Collectors.toList());
     }
 
-    public void deleteProducto(Long id) {
-        if (!productoRepository.existsById(id)) {
-            throw new NoSuchElementException("Producto no existe con id: " + id);
-        }
-        productoRepository.deleteById(id);
+    public void eliminarProd (Long id){
+          productoRepository.deleteById(id);
     }
 }

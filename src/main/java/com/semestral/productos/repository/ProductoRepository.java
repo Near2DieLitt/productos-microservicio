@@ -24,6 +24,6 @@ public interface ProductoRepository extends JpaRepository<Productos, Long> {
     @Query("SELECT p FROM Productos p WHERE p.sku = :sku")
     List<Productos> encontrarProductosPorSku(@Param("sku") String sku);
 
-    @Query("SELECT p FROM Productos p WHERE p.nombreProd LIKE %:nombreProd%")
-    List<Productos> encontrarProductosPorNombre(@Param("nombreProd") String nombreProd);
+
+
 }

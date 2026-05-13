@@ -27,7 +27,7 @@ public class Productos {
 
 @Id
 @GeneratedValue(strategy = GenerationType.IDENTITY)
-private Long idProducto;
+private Long id;
 
 
 @Column(name = "sku", nullable = false, unique = true, length = 20)

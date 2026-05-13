@@ -12,7 +12,9 @@ import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
+
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,8 +30,8 @@ public class ProductoController {
     //Creacion de endpoints
     //get (por id)
     @GetMapping("/{id}")
-    public ResponseEntity<ProductoResponseDTO> obtenerPorId(@PathVariable Long idProducto){
-        return ResponseEntity.ok(prodService.getProductoById(idProducto));
+    public ResponseEntity<ProductoResponseDTO> encontrarPorId(@PathVariable Long id){
+        return prodService.encontrarPorId(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
     }
 
     //get (todos los productos)
@@ -44,5 +46,14 @@ public class ProductoController {
         return ResponseEntity.status(201).body(prodService.saveProducto(prod));
         
     }
+
+    //delete (id)
+    @DeleteMapping("/eliminar/{id}")
+    public ResponseEntity<String> eliminar(@PathVariable Long id){
+        if(prodService.encontrarPorId(id).isEmpty()) {
+        }
+        prodService.eliminarProd(id);
+        return ResponseEntity.ok("El producto a sido eliminado");
+    } 
     
 }
